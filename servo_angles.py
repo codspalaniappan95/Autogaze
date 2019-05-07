@@ -20,7 +20,7 @@ servo_2.start(0)               # Starts running PWM on the pin and sets it to 0
 servo_3.start(0)               # Starts running PWM on the pin and sets it to 0
 servo_4.start(0)               # Starts running PWM on the pin and sets it to 0
 
-def servo(angles):
+def servo(angles = [0, 0, 0, 0]):
     # Move the servo back and forth
     servo_1.ChangeDutyCycle(((1/18)*(angles[0])) + 2.5)
     servo_2.ChangeDutyCycle(((1/18)*(angles[1])) + 2.5)
@@ -34,10 +34,13 @@ server_socket.listen(1)
 client,address=server_socket.accept()
 
 angles = list()
+old_angles = list()
+
 while True:
-    angles.append(client.recv(1024))
+    angles.append(int(client.recv(1024)))
     print(angles)
-    if len(angles) == 4:
+    if len(angles) == 4 and old_angles != angles:
+        old_angles = angles
         servo(angles)
         angles = list()
     

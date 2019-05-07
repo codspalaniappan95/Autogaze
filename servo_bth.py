@@ -60,7 +60,7 @@ client,address=server_socket.accept()
 while True:
     preset=client.recv(1024)
     print(preset)
-    servo(preset)
+    servo(int(preset))
     
     # Clean up everything
 
